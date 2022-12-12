@@ -12,7 +12,7 @@ let itemsContent = '';
 
 for(let i = 0; i < imagesArray.length; i++){
     itemsContent += `<div class="item">
-    <img src="./img/${imagesArray[i]}">
+        <img src="./img/${imagesArray[i]}">
     </div>`
 }
 
@@ -23,7 +23,7 @@ for(i = 0; i < imagesArray.length; i++) {
     thumbnail.innerHTML += `<div class="container-img">
                                 <img src="./img/${imagesArray[i]}" alt="">
                                 <div class="cover overlay"></div>
-                                </div>`
+                            </div>`
 }
 
 //inseriamo le immagini nel div che le deve contenere
@@ -51,14 +51,53 @@ circles[itemActive].classList.add('active');
 const prev = document.querySelector('.prev');
 const next = document.querySelector('.next');
 
-next.addEventListener('click', forward(items, itemActive, circles, img_side));
+next.addEventListener('click', function() {
+    forward();
+});
 
-prev.addEventListener('click', function(){
+prev.addEventListener('click', function() {
+    backwards();
+});
+
+function forward() {
     //verifico l'elemento attivo (itemActive)
     const lastActiveItem = items[itemActive];
     const lastCircleActive = circles[itemActive];
     const lastImg_side = img_side[itemActive];
     
+    //incremento il suo valore di 1
+    if (itemActive == (items.length - 1)) {
+        itemActive = 0;
+    }
+    else {
+        itemActive++;
+    }
+    
+    const activeItem = items[itemActive];
+    const circleActive = circles[itemActive];
+    const activeImg_side = img_side[itemActive];
+
+    //aggiungere la class active al nuovo elemento dell'array items e la vado a rimuovere da quello precedente
+    lastActiveItem.classList.remove('active');
+    activeItem.classList.add('active');
+
+    // aggiungo e rimuovo l'overlay e il borderlined
+    lastImg_side.classList.remove('borderlined');
+    lastImg_side.classList.add('overlay');
+    activeImg_side.classList.add('borderlined');
+    activeImg_side.classList.remove('overlay');
+
+    //stessa cosa per i cerchi
+    lastCircleActive.classList.remove('active');
+    circleActive.classList.add('active');
+}
+
+function backwards() {
+    //verifico l'elemento attivo (itemActive)
+    const lastActiveItem = items[itemActive];
+    const lastCircleActive = circles[itemActive];
+    const lastImg_side = img_side[itemActive];
+
     //decremento il suo valore di 1
     if (itemActive == 0) {
         itemActive = (items.length - 1);
@@ -66,7 +105,7 @@ prev.addEventListener('click', function(){
     else {
         itemActive--;
     }
-    
+
     const activeItem = items[itemActive];
     const circleActive = circles[itemActive];
     const activeImg_side = img_side[itemActive];
@@ -74,39 +113,6 @@ prev.addEventListener('click', function(){
     //aggiungere la class active al nuovo elemento dell'array items e la vado a rimuovere da quello precedente
     lastActiveItem.classList.remove('active');
     activeItem.classList.add('active');
-    
-    // aggiungo e rimuovo l'overlay e il borderlined
-    lastImg_side.classList.remove('borderlined');
-    lastImg_side.classList.add('overlay');
-    activeImg_side.classList.add('borderlined');
-    activeImg_side.classList.remove('overlay');
-    
-    //stessa cosa per i cerchi
-    lastCircleActive.classList.remove('active');
-    circleActive.classList.add('active');
-})
-
-function forward(item, itemActi, circle, img_si) {
-    //verifico l'elemento attivo (itemActive)
-    const lastActiveItem = item[itemActi];
-    const lastCircleActive = circle[itemActi];
-    const lastImg_side = img_si[itemActi];
-    
-    //incremento il suo valore di 1
-    if (itemActi == (item.length - 1)) {
-        itemActi = 0;
-    }
-    else {
-        itemActi++;
-    }
-    
-    const activeItem = item[itemActi];
-    const circleActive = circle[itemActi];
-    const activeImg_side = img_si[itemActi];
-
-    //aggiungere la class active al nuovo elemento dell'array items e la vado a rimuovere da quello precedente
-    lastActiveItem.classList.remove('active');
-    activeItem.classList.add('active');
 
     // aggiungo e rimuovo l'overlay e il borderlined
     lastImg_side.classList.remove('borderlined');
@@ -117,6 +123,6 @@ function forward(item, itemActi, circle, img_si) {
     //stessa cosa per i cerchi
     lastCircleActive.classList.remove('active');
     circleActive.classList.add('active');
-
-    return itemActi
 }
+
+setInterval (forward, 2000);
