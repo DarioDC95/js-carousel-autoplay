@@ -59,6 +59,17 @@ prev.addEventListener('click', function() {
     backwards();
 });
 
+let autoPlay = setInterval (forward, 1000);
+
+document.getElementById('autoplay').addEventListener('click', function() {
+    clearInterval (autoPlay);
+    autoPlay = setInterval (forward, 1000);
+})
+
+document.getElementById('stop-autoplay').addEventListener('click', function() {
+    clearInterval (autoPlay);
+})
+
 function forward() {
     //verifico l'elemento attivo (itemActive)
     const lastActiveItem = items[itemActive];
@@ -125,4 +136,3 @@ function backwards() {
     circleActive.classList.add('active');
 }
 
-setInterval (forward, 2000);
