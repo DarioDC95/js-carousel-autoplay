@@ -60,14 +60,21 @@ prev.addEventListener('click', function() {
 });
 
 let autoPlay = setInterval (forward, 1000);
+let check = false;
 
 document.getElementById('autoplay').addEventListener('click', function() {
-    clearInterval (autoPlay);
-    autoPlay = setInterval (forward, 1000);
+    // clearInterval (autoPlay);
+    if (check == true) {
+        autoPlay = setInterval (forward, 1000);
+        check = false;
+    }
 })
 
 document.getElementById('stop-autoplay').addEventListener('click', function() {
-    clearInterval (autoPlay);
+    if (check == false) {
+        clearInterval (autoPlay);
+        check = true;
+    }
 })
 
 function forward() {
